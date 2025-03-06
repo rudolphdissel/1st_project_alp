@@ -5,8 +5,9 @@
     <!-- 학생 등록 폼 -->
     <div class="student-form">
       <input v-model="newStudent.name" placeholder="이름" />
-      <input v-model="newStudent.grade" placeholder="학년" />
+      <input v-model="newStudent.gender" placeholder="성별" />
       <button @click="addStudent">등록</button>
+      
     </div>
 
     <!-- 학생 목록 -->
@@ -16,15 +17,14 @@
           <tr>
             <th>ID</th>
             <th>이름</th>
-            <th>학년</th>
-            <th>작업</th>
+            <th>성별</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="student in students" :key="student.id">
             <td>{{ student.id }}</td>
             <td>{{ student.name }}</td>
-            <td>{{ student.grade }}</td>
+            <td>{{ student.gender }}</td>
             <td>
               <button @click="deleteStudent(student.id)">삭제</button>
             </td>
@@ -45,14 +45,14 @@ export default {
       students: [],
       newStudent: {
         name: '',
-        grade: ''
+        gender: '',
       }
     };
   },
   methods: {
     async fetchStudents() {
       try {
-        const response = await axiosInstance.get('/api/students');
+        const response = await axiosInstance.get('/students');
         this.students = response.data;
       } catch (error) {
         console.error('학생 목록 조회 실패:', error);
@@ -60,8 +60,8 @@ export default {
     },
     async addStudent() {
       try {
-        await axiosInstance.post('/api/students', this.newStudent);
-        this.newStudent = { name: '', grade: '' };
+        await axiosInstance.post('/students', this.newStudent);
+        this.newStudent = { name: '', gender: '' };
         await this.fetchStudents();
       } catch (error) {
         console.error('학생 등록 실패:', error);
@@ -69,7 +69,7 @@ export default {
     },
     async deleteStudent(id) {
       try {
-        await axiosInstance.delete(`/api/students/${id}`);
+        await axiosInstance.delete(`/students/${id}`);
         await this.fetchStudents();
       } catch (error) {
         console.error('학생 삭제 실패:', error);

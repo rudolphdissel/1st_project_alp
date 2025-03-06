@@ -1,4 +1,5 @@
 // axios cros origin 설정
+import axios from "axios";
 let config = {
   baseURL: "/api",
   timeout: 1000,
