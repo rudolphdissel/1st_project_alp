@@ -1,9 +1,27 @@
 <script>
+import StudentManage from "./components/StudentManage.vue";
+
+export default {
+  name: "App",
+  components: {
+    StudentManage,
+  },
+};
 </script>
 
 <template>
-    <p>Q1. 물의 분자식은 무엇인가요?</p>
+  <div id="app">
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/about">About</RouterLink>
+  </div>
 </template>
 
-<style scoped>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>

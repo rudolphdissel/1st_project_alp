@@ -17,11 +17,15 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
-    }
+    // public void deleteStudent(Long id) {
+    //     studentRepository.deleteById(id);
+    // }
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+    // public Student getStudentById(Long id) {
+    //     return studentRepository.findById(id).orElse(null);
+    // }
 }
