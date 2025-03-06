@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axiosInstance from '@/axios';
 
 export default {
   name: 'StudentManage',
@@ -52,7 +52,7 @@ export default {
   methods: {
     async fetchStudents() {
       try {
-        const response = await axios.get('http://localhost:8080/api/students');
+        const response = await axiosInstance.get('/api/students');
         this.students = response.data;
       } catch (error) {
         console.error('학생 목록 조회 실패:', error);
@@ -60,7 +60,7 @@ export default {
     },
     async addStudent() {
       try {
-        await axios.post('http://localhost:8080/api/students', this.newStudent);
+        await axiosInstance.post('/api/students', this.newStudent);
         this.newStudent = { name: '', grade: '' };
         await this.fetchStudents();
       } catch (error) {
@@ -69,7 +69,7 @@ export default {
     },
     async deleteStudent(id) {
       try {
-        await axios.delete(`http://localhost:8080/api/students/${id}`);
+        await axiosInstance.delete(`/api/students/${id}`);
         await this.fetchStudents();
       } catch (error) {
         console.error('학생 삭제 실패:', error);
