@@ -7,16 +7,19 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "student")
-public class Student {
+@Table(name = "quizset")
+public class Quizset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
+    private Long quizsetId;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
+    @JoinColumn(name = "unit_id", nullable = false)
+    private Unit unit;
 
     @Column(nullable = false)
-    private String studentName;
+    private String quizName;
+
+    @Column(nullable = false)
+    private int quizDiff;
 }

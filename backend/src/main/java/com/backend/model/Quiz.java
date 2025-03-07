@@ -1,5 +1,6 @@
 package com.backend.model;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,16 +8,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "student")
-public class Student {
+@Table(name = "quiz")
+public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
+    private Long quizId;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
+    @JoinColumn(name = "quizset_id", nullable = false)
+    private Quizset quizset;
 
     @Column(nullable = false)
-    private String studentName;
+    private String rightAnswer;
 }
+
