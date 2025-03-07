@@ -1,5 +1,9 @@
 <template>
   <div class="teacher-menu">
+    <div class="teacher-info">
+      현재 접속: {{ teacherName }} 선생님 (ID: {{ teacherId }})
+      <button @click="logout" class="logout-button">로그아웃</button>
+    </div>
     <h1>이곳은 교사 페이지입니다!</h1>
     <div class="button-container">
       <RouterLink to="/students" class="menu-button">학생 관리</RouterLink>
@@ -7,6 +11,39 @@
     </div>
   </div>
 </template>
+
+<script>
+import { useRouter } from 'vue-router';
+
+export default {
+  data() {
+    return {
+      teacherId: localStorage.getItem('teacherId'),
+      teacherName: localStorage.getItem('teacherName')
+    }
+  },
+  setup() {
+    const router = useRouter();
+    return { router }
+  },
+  created() {
+    // 로그인 상태가 아니면 홈으로 리다이렉트
+    if (!this.teacherId) {
+      this.router.push('/');
+    }
+  },
+  methods: {
+    logout() {
+      // localStorage에서 교사 정보 삭제
+      localStorage.removeItem('teacherId');
+      localStorage.removeItem('teacherName');
+      
+      // 홈으로 리다이렉트
+      this.router.push('/');
+    }
+  }
+}
+</script>
 
 <style scoped>
 .teacher-menu {
@@ -17,6 +54,36 @@
   min-height: 80vh;
   padding: 20px;
   background-color: #f8f9fa;
+  position: relative;
+}
+
+.teacher-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logout-button {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
 }
 
 h1 {

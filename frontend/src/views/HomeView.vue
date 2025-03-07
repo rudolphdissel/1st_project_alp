@@ -2,12 +2,19 @@
   <div class="home">
     <h1 class="title">LMS 관리 프로그램</h1>
     <img src="https://blog.kakaocdn.net/dn/bT4f9F/btqwMJHBvjt/Wl7hSDXr9G94XP3pLqloy0/img.jpg" alt="LMS Logo"/>
+    
     <div class="button-container">
-      <RouterLink to="/teachermain" class="nav-link">교사 페이지</RouterLink>
+      <RouterLink to="/teacher" class="nav-link">교사 페이지</RouterLink>
       <RouterLink to="/studentmain" class="nav-link">학생 페이지</RouterLink>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'HomeView'
+}
+</script>
 
 <style scoped>
 .home {
@@ -17,38 +24,31 @@
   justify-content: center;
   min-height: 80vh;
   padding: 20px;
-  background-color: #f8f9fa;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  margin: 20px 0;
 }
 
 .title {
   color: #2c3e50;
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease;
-}
-
-img:hover {
-  transform: scale(1.05);
+  text-align: center;
 }
 
 .button-container {
   display: flex;
   gap: 20px;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .nav-link {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 15px 30px;
+  font-size: 1.2rem;
   color: white;
   background-color: #4CAF50;
   text-decoration: none;
