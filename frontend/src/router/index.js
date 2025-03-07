@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import StudentManage from '../views/StudentManage.vue'
-import TeacherMenu from '@/views/TeacherMenu.vue'
+import TeacherLogin from '../views/TeacherLogin.vue'
+import TeacherMenu from '../views/TeacherMenu.vue'
 import StudentMenu from '@/views/StudentMenu.vue'
 
 const router = createRouter({
@@ -16,14 +17,17 @@ const router = createRouter({
       path: '/students',
       name: 'students',
       component: StudentManage
-    }
-    ,
+    },
     {
-      path: '/teachermain',
-      name: 'teachermain',
+      path: '/teacherlogin',
+      name: 'teacherlogin',
+      component: TeacherLogin
+    },
+    {
+      path: '/teachermenu',
+      name: 'teachermenu',
       component: TeacherMenu
-    }
-    ,
+    },
     {
       path: '/studentmain',
       name: 'studentmain',

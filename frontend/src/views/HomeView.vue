@@ -1,13 +1,22 @@
 <template>
   <div class="home">
-    <h1 class="title">LMS 관리 프로그램</h1>
-    <img src="https://blog.kakaocdn.net/dn/bT4f9F/btqwMJHBvjt/Wl7hSDXr9G94XP3pLqloy0/img.jpg" alt="LMS Logo"/>
+    <h1>학생 관리 시스템</h1>
     <div class="button-container">
-      <RouterLink to="/teachermain" class="nav-link">교사 페이지</RouterLink>
-      <RouterLink to="/studentmain" class="nav-link">학생 페이지</RouterLink>
+      <router-link to="/teacherlogin" class="login-button teacher">
+        교사 로그인
+      </router-link>
+      <button class="login-button student" disabled>
+        학생 로그인 (준비중)
+      </button>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'HomeView'
+}
+</script>
 
 <style scoped>
 .home {
@@ -15,52 +24,47 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;
+  min-height: 100vh;
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: #f5f5f5;
 }
 
-.title {
-  color: #2c3e50;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease;
-}
-
-img:hover {
-  transform: scale(1.05);
+h1 {
+  color: #333;
+  margin-bottom: 40px;
+  font-size: 2.5em;
 }
 
 .button-container {
   display: flex;
+  flex-direction: column;
   gap: 20px;
-  margin-top: 1rem;
 }
 
-.nav-link {
-  display: inline-block;
-  padding: 12px 24px;
-  color: white;
-  background-color: #4CAF50;
-  text-decoration: none;
+.login-button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  border: none;
   border-radius: 8px;
-  font-weight: bold;
+  cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  text-align: center;
+  min-width: 200px;
 }
 
-.nav-link:hover {
+.teacher {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.teacher:hover {
   background-color: #45a049;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.student {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
 }
 </style>
