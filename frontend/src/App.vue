@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav>
-      <RouterLink to="/">홈</RouterLink> |
-      <RouterLink to="/students">학생 관리</RouterLink>
+      <!-- <RouterLink to="/">홈</RouterLink> |
+      <RouterLink to="/students">학생 관리</RouterLink> -->
     </nav>
     <RouterView />
   </div>

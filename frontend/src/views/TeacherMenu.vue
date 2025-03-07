@@ -1,16 +1,15 @@
 <template>
-  <div class="home">
-    <h1 class="title">LMS 관리 프로그램</h1>
-    <img src="https://blog.kakaocdn.net/dn/bT4f9F/btqwMJHBvjt/Wl7hSDXr9G94XP3pLqloy0/img.jpg" alt="LMS Logo"/>
+  <div class="teacher-menu">
+    <h1>이곳은 교사 페이지입니다!</h1>
     <div class="button-container">
-      <RouterLink to="/teachermain" class="nav-link">교사 페이지</RouterLink>
-      <RouterLink to="/studentmain" class="nav-link">학생 페이지</RouterLink>
+      <RouterLink to="/students" class="menu-button">학생 관리</RouterLink>
+      <RouterLink to="/" class="menu-button">홈으로</RouterLink>
     </div>
   </div>
 </template>
 
 <style scoped>
-.home {
+.teacher-menu {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,24 +19,11 @@
   background-color: #f8f9fa;
 }
 
-.title {
+h1 {
   color: #2c3e50;
   font-size: 2.5rem;
   margin-bottom: 2rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease;
-}
-
-img:hover {
-  transform: scale(1.05);
 }
 
 .button-container {
@@ -46,7 +32,7 @@ img:hover {
   margin-top: 1rem;
 }
 
-.nav-link {
+.menu-button {
   display: inline-block;
   padding: 12px 24px;
   color: white;
@@ -58,7 +44,7 @@ img:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-link:hover {
+.menu-button:hover {
   background-color: #45a049;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
