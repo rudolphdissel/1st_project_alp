@@ -16,3 +16,4 @@ public class Teacher {
     @Column(nullable = false)
     private String teacherName;
 }
+// DELETE FROM teacher // teacher 테이블 초기화

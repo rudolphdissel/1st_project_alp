@@ -1,33 +1,33 @@
 <template>
   <div class="student-manage">
-    <h2>학생 관리</h2>
+    <h1>학생 관리</h1>
     
     <!-- 학생 등록 폼 -->
-    <div class="student-form">
-      <input v-model="newStudent.name" placeholder="이름" />
-      <input v-model="newStudent.gender" placeholder="성별" />
-      <button @click="addStudent">등록</button>
-      
+    <div class="add-student-form">
+      <input 
+        type="text" 
+        v-model="newStudentName" 
+        placeholder="학생 이름을 입력하세요"
+        class="student-input"
+      >
+      <button @click="addStudent" class="add-button">등록</button>
     </div>
 
-    <!-- 학생 목록 -->
-    <div class="student-list">
+    <!-- 학생 목록 테이블 -->
+    <div class="student-table">
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>이름</th>
-            <th>성별</th>
+            <th>순번</th>
+            <th>교사 이름</th>
+            <th>학생 이름</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="student in students" :key="student.id">
-            <td>{{ student.id }}</td>
-            <td>{{ student.name }}</td>
-            <td>{{ student.gender }}</td>
-            <td>
-              <button @click="deleteStudent(student.id)">삭제</button>
-            </td>
+          <tr v-for="(student, index) in students" :key="student.studentId">
+            <td>{{ index + 1 }}</td>
+            <td>{{ student.teacher.teacherName }}</td>
+            <td>{{ student.studentName }}</td>
           </tr>
         </tbody>
       </table>
@@ -36,66 +36,110 @@
 </template>
 
 <script>
-import axiosInstance from '@/axios';
+import axiosInst from '../axios'
 
 export default {
   name: 'StudentManage',
   data() {
     return {
       students: [],
-      newStudent: {
-        name: '',
-        gender: '',
-      }
-    };
+      newStudentName: '',
+      teacherId: null
+    }
+  },
+  created() {
+    // localStorage에서 teacherId 가져오기
+    this.teacherId = localStorage.getItem('teacherId')
+    if (!this.teacherId) {
+      this.$router.push('/teacherlogin')
+      return
+    }
+    this.fetchStudents()
   },
   methods: {
     async fetchStudents() {
       try {
-        const response = await axiosInstance.get('/students');
-        this.students = response.data;
+        const response = await axiosInst.get('/api/students')
+        this.students = response.data
       } catch (error) {
-        console.error('학생 목록 조회 실패:', error);
+        console.error('학생 목록을 가져오는데 실패했습니다:', error)
+        alert('학생 목록을 가져오는데 실패했습니다.')
       }
     },
     async addStudent() {
-      try {
-        await axiosInstance.post('/students', this.newStudent);
-        this.newStudent = { name: '', gender: '' };
-        await this.fetchStudents();
-      } catch (error) {
-        console.error('학생 등록 실패:', error);
+      if (!this.newStudentName.trim()) {
+        alert('학생 이름을 입력해주세요.')
+        return
       }
-    },
-    async deleteStudent(id) {
+
       try {
-        await axiosInstance.delete(`/students/${id}`);
-        await this.fetchStudents();
+        const response = await axiosInst.post('/api/students', {
+          studentName: this.newStudentName.trim(),
+          teacher: {
+            teacherId: parseInt(this.teacherId)
+          }
+        })
+        
+        // 입력 필드 초기화
+        this.newStudentName = ''
+        
+        // 학생 목록 새로고침
+        await this.fetchStudents()
       } catch (error) {
-        console.error('학생 삭제 실패:', error);
+        console.error('학생 등록에 실패했습니다:', error)
+        alert('학생 등록에 실패했습니다.')
       }
     }
-  },
-  mounted() {
-    this.fetchStudents();
   }
-};
+}
 </script>
 
 <style scoped>
 .student-manage {
+  padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
 }
 
-.student-form {
-  margin-bottom: 20px;
+h1 {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.student-form input {
-  margin-right: 10px;
-  padding: 5px;
+.add-student-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.student-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.add-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+.student-table {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 table {
@@ -104,33 +148,17 @@ table {
 }
 
 th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 th {
   background-color: #f5f5f5;
+  font-weight: bold;
 }
 
-button {
-  padding: 5px 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-button.delete {
-  background-color: #f44336;
-}
-
-button.delete:hover {
-  background-color: #da190b;
+tr:hover {
+  background-color: #f9f9f9;
 }
 </style>

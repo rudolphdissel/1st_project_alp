@@ -5,7 +5,6 @@ import com.backend.service.TeacherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,12 +14,6 @@ public class TeacherController {
 
     public TeacherController(TeacherService teacherService) {
         this.teacherService = teacherService;
-    }
-
-    // 🔹 1. 전체 조회 (GET)
-    @GetMapping("/all")
-    public List<Teacher> getAllTeachers() {
-        return teacherService.getAllTeachers();
     }
 
     // 🔹 2. 개별 조회 (GET)
