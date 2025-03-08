@@ -1,8 +1,6 @@
 <template>
   <div class="student-manage">
     <h1>학생 관리</h1>
-    
-    <!-- 학생 등록 폼 -->
     <div class="add-student-form">
       <input 
         type="text" 
@@ -12,8 +10,6 @@
       >
       <button @click="addStudent" class="add-button">등록</button>
     </div>
-
-    <!-- 학생 목록 테이블 -->
     <div class="student-table">
       <table>
         <thead>
@@ -36,89 +32,69 @@
 </template>
 
 <script>
-import axiosInst from '../axios'
+import axiosInst from '@/axios';
+import { ref, onMounted } from 'vue';
 
 export default {
   name: 'StudentManage',
-  data() {
-    return {
-      students: [],
-      newStudentName: '',
-      teacherId: null
-    }
-  },
-  created() {
-    // localStorage에서 teacherId 가져오기
-    this.teacherId = localStorage.getItem('teacherId')
-    if (!this.teacherId) {
-      this.$router.push('/teacherlogin')
-      return
-    }
-    this.fetchStudents()
-  },
-  methods: {
-    async fetchStudents() {
-      try {
-        const response = await axiosInst.get('/api/students')
-        this.students = response.data
-      } catch (error) {
-        console.error('학생 목록을 가져오는데 실패했습니다:', error)
-        alert('학생 목록을 가져오는데 실패했습니다.')
-      }
-    },
-    async addStudent() {
-      if (!this.newStudentName.trim()) {
-        alert('학생 이름을 입력해주세요.')
-        return
-      }
+  setup() {
+    const students = ref([]);
+    const newStudentName = ref('');
 
-      try {
-        const response = await axiosInst.post('/api/students', {
-          studentName: this.newStudentName.trim(),
-          teacher: {
-            teacherId: parseInt(this.teacherId)
-          }
-        })
-        
-        // 입력 필드 초기화
-        this.newStudentName = ''
-        
-        // 학생 목록 새로고침
-        await this.fetchStudents()
-      } catch (error) {
-        console.error('학생 등록에 실패했습니다:', error)
-        alert('학생 등록에 실패했습니다.')
+    const fetchStudents = async () => {
+      const teacherId = localStorage.getItem('teacherId');
+      if (teacherId) {
+        try {
+          const res = await axiosInst.get(`/students/teacher/${teacherId}`);
+          students.value = res.data;
+        } catch (error) {
+          console.error('Error fetching students:', error);
+        }
       }
-    }
+    };
+
+    const addStudent = async () => {
+      const teacherId = localStorage.getItem('teacherId');
+      if (teacherId) {
+        try {
+          const res = await axiosInst.post('/students', {
+            studentName: newStudentName.value,
+            teacher: { teacherId: teacherId }
+          });
+          students.value.push(res.data);
+          newStudentName.value = '';
+        } catch (error) {
+          console.error('Error adding student:', error);
+        }
+      }
+    };
+
+    onMounted(() => {
+      fetchStudents();
+    });
+
+    return {
+      students,
+      newStudentName,
+      addStudent
+    };
   }
-}
+};
 </script>
 
 <style scoped>
 .student-manage {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-h1 {
-  color: #333;
-  margin-bottom: 30px;
   text-align: center;
+  padding: 20px;
 }
 
 .add-student-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .student-input {
-  flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+  margin-right: 10px;
 }
 
 .add-button {
@@ -126,9 +102,8 @@ h1 {
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
 }
 
 .add-button:hover {
@@ -136,29 +111,20 @@ h1 {
 }
 
 .student-table {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  margin-top: 20px;
 }
 
-table {
+.student-table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+.student-table th, .student-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
-th {
-  background-color: #f5f5f5;
-  font-weight: bold;
-}
-
-tr:hover {
-  background-color: #f9f9f9;
+.student-table th {
+  background-color: #f2f2f2;
 }
 </style>

@@ -18,6 +18,10 @@ public class StudentService {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+    public List<Student> getStudentsByTeacherId(Long teacherId) {
+        return studentRepository.findByTeacher_TeacherId(teacherId);
+    }
+
     public Student addStudent(Student student) {
         return studentRepository.save(student);
     }

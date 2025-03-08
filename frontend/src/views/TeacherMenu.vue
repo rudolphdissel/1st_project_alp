@@ -16,14 +16,11 @@
 </template>
 
 <script>
-//로그인만 사용자만 교사 메뉴에 접근할 수 있도록 보장할 수 있는 기능.
 export default {
   name: 'TeacherMenu',
   created() {
-    // localStorage에서 teacherId 확인
     const teacherId = localStorage.getItem('teacherId');
     if (!teacherId) {
-      // teacherId가 없으면 로그인 페이지로 리다이렉트
       this.$router.push('/teacherlogin');
     }
   }

@@ -19,10 +19,15 @@ public class StudentController {
     public List<Student> getStudentAll() {
         return studentService.getAllStudents();
     }
-    
+
+    @GetMapping("/students/teacher/{teacherId}")
+    public List<Student> getStudentsByTeacherId(@PathVariable Long teacherId) {
+        return studentService.getStudentsByTeacherId(teacherId);
+    }
 
     @PostMapping("/students")
     public Student addStudent(@RequestBody Student student) {
+        System.out.println("ㅇㅇㅇㅇ");
         return studentService.addStudent(student);
     }
 
